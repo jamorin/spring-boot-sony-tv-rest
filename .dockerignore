@@ -1,0 +1,7 @@
+.idea/
+.dockerignore
+.gitignore
+Dockerfile
+target/
+mvnw.cmd
+*.iml
