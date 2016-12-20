@@ -14,7 +14,7 @@ import java.util.Map;
 @Data
 @Configuration
 @ConfigurationProperties(prefix = "tv", ignoreUnknownFields = false)
-public class Config {
+public class TVConfig {
 
     /**
      * The full endpoint URL to your Sony TV.

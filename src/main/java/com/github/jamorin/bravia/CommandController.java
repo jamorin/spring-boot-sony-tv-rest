@@ -28,13 +28,13 @@ public class CommandController {
     private final RestTemplate restTemplate;
     private final MultiValueMap<String, String> headers = new LinkedMultiValueMap<>();
     private final Map<String, String> cmdSlugs = new HashMap<>();
-    private final String bodyTemplate = "<?xml version=\"1.0\"?><s:Envelope " +
+    private final TVConfig config;
+    private static final String BODY_TEMPLATE = "<?xml version=\"1.0\"?><s:Envelope " +
             "xmlns:s=\"http://schemas.xmlsoap.org/soap/envelope/\" s:encodingStyle=\"" +
             "http://schemas.xmlsoap.org/soap/encoding/\"><s:Body><u:X_SendIRCC xmlns:u=\"" +
             "urn:schemas-sony-com:service:IRCC:1\"><IRCCCode>%s</IRCCCode></u:X_SendIRCC></s:Body></s:Envelope>";
-    private final Config config;
 
-    public CommandController(RestTemplateBuilder restTemplateBuilder, Config config) {
+    public CommandController(RestTemplateBuilder restTemplateBuilder, TVConfig config) {
         this.restTemplate = restTemplateBuilder.build();
         this.config = config;
     }
@@ -45,14 +45,14 @@ public class CommandController {
         String sligify = SLUGIFY(request.getCommand());
         String cmd = cmdSlugs.get(sligify);
         if (cmd == null) {
-            log.warn("Received unknown: {} {}", request.getCommand(), request.getDate());
+            log.warn("Received unknown: {} {}", request.getCommand());
             // We still give back OK. anything HTTP error code seems to cause IFTTT to rate limit requests.
             return new ResponseEntity(HttpStatus.OK);
         } else {
-            log.info("{} {}", sligify, request.getDate());
+            log.info(sligify);
         }
 
-        String body = String.format(bodyTemplate, cmd);
+        String body = String.format(BODY_TEMPLATE, cmd);
         HttpEntity<String> requestEntity = new HttpEntity<>(body, headers);
 
 
@@ -64,7 +64,7 @@ public class CommandController {
 
     @PostConstruct
     public void init() {
-        headers.add("X-Auth-PSK", "0000");
+        headers.add("X-Auth-PSK", config.getPreSharedKey());
         headers.add("SOAPACTION", "\"urn:schemas-sony-com:service:IRCC:1#X_SendIRCC\"");
         headers.add("Content-Type", "text/xml; charset=UTF-8");
 

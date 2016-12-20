@@ -9,9 +9,4 @@ public class Request {
     @NotBlank
     private String command;
 
-    /**
-     * This is for the CreatedDate of IFTTT.
-     */
-    private String date;
-
 }
