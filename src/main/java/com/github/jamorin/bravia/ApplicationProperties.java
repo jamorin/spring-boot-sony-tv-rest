@@ -6,15 +6,17 @@ import org.hibernate.validator.constraints.NotEmpty;
 import org.hibernate.validator.constraints.URL;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.NotNull;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 @Data
+@Validated
 @Configuration
 @ConfigurationProperties(prefix = "tv", ignoreUnknownFields = false)
-public class TVConfig {
+public class ApplicationProperties {
 
     /**
      * The full endpoint URL to your Sony TV.
@@ -23,6 +25,9 @@ public class TVConfig {
     @URL
     @NotNull
     private String url;
+
+    @NotBlank
+    private String requestBodyTemplate;
 
     /**
      * The pre-shared key setup in your Sony TV's settings.
