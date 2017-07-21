@@ -2,7 +2,7 @@
 .dockerignore
 .gitignore
 Dockerfile
+docker-compose.yml
 target/
-mvnw.cmd
 README.md
 *.iml

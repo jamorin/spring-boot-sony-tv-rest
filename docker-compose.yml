@@ -1,0 +1,42 @@
+version: '2'
+services:
+  proxy:
+    build: .
+    image: jamorin/spring-boot-sony-tv-rest
+    environment:
+    # Example of overriding the configuration
+    - tv.url=http://192.168.86.30/sony/IRCC
+    - tv.pre-shared-key=0000
+    # Whitelisted github SSO users.
+    - proxy.oauth-users=jamorin,foobar,spring
+    # Make a user `user`
+    - proxy.users.user=password
+    - proxy.roles.user=API,NZBGET
+    # Make a user `admin`
+    - proxy.users.admin=password
+    - proxy.roles.admin=ADMIN,API,NZBGET
+    # Make a user `dognzb`
+    - proxy.users.dognzb=dognzb
+    - proxy.roles.dognzb=NZBGET
+    - security.oauth2.client.client-id=bd1c0a783ccdd1c9b9e4
+    - security.oauth2.client.client-secret=1a9030fbca47a5b2c28e92f19050bb77824b5ad1
+    - security.oauth2.client.access-token-uri=https://github.com/login/oauth/access_token
+    - security.oauth2.client.user-authorization-uri=https://github.com/login/oauth/authorize
+    - security.oauth2.client.client-authentication-scheme=form
+    - security.oauth2.resource.user-info-uri=https://api.github.com/user
+    - zuul.routes.sonarr.path=/sonarr/**
+    - zuul.routes.sonarr.url=http://192.168.86.2:8989/sonarr
+    - zuul.routes.radarr.path=/radarr/**
+    - zuul.routes.radarr.url=http://192.168.86.2:7878/radarr
+    - zuul.routes.nzbget.path=/nzbget/**
+    - zuul.routes.nzbget.url=http://192.168.86.2:6789/nzbget
+    - zuul.routes.sonarr-api.path=/api/sonarr/**
+    - zuul.routes.sonarr-api.url=http://192.168.86.2:8989/sonarr
+    - zuul.routes.radarr-api.path=/api/radarr/**
+    - zuul.routes.radarr-api.url=http://192.168.86.2:7878/radarr
+    - zuul.routes.nzbget-api.path=/api/nzbget/**
+    - zuul.routes.nzbget-api.url=http://192.168.86.2:6789/nzbget
+    - zuul.routes.xmlrpc.path=/xmlrpc
+    - zuul.routes.xmlrpc.url=http://192.168.86.2:6789/xmlrpc
+    ports:
+    - "8080:8080"

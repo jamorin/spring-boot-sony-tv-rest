@@ -1,4 +1,4 @@
-package com.github.jamorin.bravia;
+package com.github.jamorin.androidtv.config;
 
 import lombok.Data;
 import org.hibernate.validator.constraints.NotBlank;
@@ -16,7 +16,7 @@ import java.util.Map;
 @Validated
 @Configuration
 @ConfigurationProperties(prefix = "tv", ignoreUnknownFields = false)
-public class ApplicationProperties {
+public class TvProperties {
 
     /**
      * The full endpoint URL to your Sony TV.
@@ -25,9 +25,6 @@ public class ApplicationProperties {
     @URL
     @NotNull
     private String url;
-
-    @NotBlank
-    private String requestBodyTemplate;
 
     /**
      * The pre-shared key setup in your Sony TV's settings.

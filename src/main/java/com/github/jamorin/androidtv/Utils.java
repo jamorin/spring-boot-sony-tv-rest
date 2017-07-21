@@ -1,4 +1,4 @@
-package com.github.jamorin.bravia;
+package com.github.jamorin.androidtv;
 
 public class Utils {
 
