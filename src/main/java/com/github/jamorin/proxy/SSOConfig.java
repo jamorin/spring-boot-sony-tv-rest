@@ -12,7 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
  */
 @EnableOAuth2Sso
 @Configuration
-@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER) // Last in our list
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER) // Last in our list to catch all
 public class SSOConfig extends WebSecurityConfigurerAdapter {
 
     @Override

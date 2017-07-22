@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.requestMatcher(apiMatcher)
                 .authorizeRequests()
-                // permit all, as these apps will already require checking the given x-api-token header
+                // permit all, as these apps will already require checking their required x-api-token header
                 .antMatchers("/api/sonarr/api/**", "/api/radarr/api/**").permitAll()
                 // nzbget does not use token headers and we must keep it protected
                 .antMatchers("/api/nzbget/**", "/xmlrpc").hasRole("NZBGET")

@@ -13,7 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
  */
 @Configuration
 @RequiredArgsConstructor
-@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER - 2) // Needs to be first
+@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER - 2) // Needs to be first to have highest priority over SSO
 public class TvSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
