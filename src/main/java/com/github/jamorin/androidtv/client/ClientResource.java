@@ -25,8 +25,8 @@ public class ClientResource {
 
     public ClientResource(RestTemplateBuilder builder, TvProperties properties, Template template) {
         this.restTemplate = builder
-                .setReadTimeout(10_000)
-                .setConnectTimeout(5_000)
+                .setReadTimeout(15_000)
+                .setConnectTimeout(15_000)
                 .build();
         this.template = template;
         this.properties = properties;
