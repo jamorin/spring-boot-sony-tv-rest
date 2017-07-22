@@ -2,10 +2,12 @@ package com.github.jamorin.proxy;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.web.filter.ForwardedHeaderFilter;
 
 import static com.google.common.base.Strings.isNullOrEmpty;
 
@@ -32,5 +34,15 @@ public class ProxyConfiguration {
             }
             return AuthorityUtils.createAuthorityList("ROLE_USER");
         };
+    }
+
+    /*
+        Filter to make sure any redirected urls work behind a reverse proxy.
+     */
+    @Bean
+    public FilterRegistrationBean forwardedHeaderFilter() {
+        FilterRegistrationBean bean = new FilterRegistrationBean(new ForwardedHeaderFilter());
+        bean.setOrder(-500); // Before SecurityFilterChain to fix redirecting to internal urls after successful authentication
+        return bean;
     }
 }

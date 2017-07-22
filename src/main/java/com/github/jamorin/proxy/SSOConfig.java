@@ -19,6 +19,8 @@ public class SSOConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.antMatcher("/**")
                 .authorizeRequests()
-                .anyRequest().hasRole("API");
+                .anyRequest().hasRole("API")
+            .and()
+                .csrf().disable();
     }
 }
