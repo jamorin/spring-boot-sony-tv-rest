@@ -9,6 +9,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.web.filter.ForwardedHeaderFilter;
 
+import java.util.List;
+import java.util.Map;
+
 import static com.google.common.base.Strings.isNullOrEmpty;
 
 @EnableZuulProxy
@@ -29,8 +32,15 @@ public class ProxyConfiguration {
             // Map this field to a role so that we may do access control
             // If they are present in our props, they get the API role
             String role = (String) map.get("login");
+            Map<String, Object> app_metadata = (Map<String, Object>) map.get("app_metadata");
             if (!isNullOrEmpty(role) && props.getOauthUsers().contains(role)) {
                 return AuthorityUtils.createAuthorityList("ROLE_API");
+            } else if (app_metadata != null) {
+                // Support Auth0 app_metadata where we can inject custom data via an authorities field in app_metadata.
+                List<String> roles = (List<String>) app_metadata.get("authorities");
+                if (roles != null) {
+                    return AuthorityUtils.createAuthorityList(roles.toArray(new String[0]));
+                }
             }
             return AuthorityUtils.createAuthorityList("ROLE_USER");
         };

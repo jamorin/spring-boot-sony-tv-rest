@@ -5,7 +5,7 @@
 #### This project serves 2 purposes:
 
 1. Expose a REST resource for Voice commands to a Sony Android TV. `HTTP :8080/api/command command=netflix`
-2. Gateway/Proxy access to apps like NZBGet, Sonarr, and Radarr with SSO via Github OAuth and support basic authentication in one unified place.
+2. Gateway/Proxy access to apps like NZBGet, Sonarr, and Radarr with SSO via Auth0/Github OAuth and support basic authentication in one unified place.
 
 _Note: This should really be two separate apps but I'm lazy and its nice to deploy a single Docker image to my server for all my needs._
 
@@ -56,7 +56,14 @@ See `tv.*` properties in application.properties for example setup
 
 ## SSO Gateway and Basic Auth for Radarr, Sonarr, and NZBGet + Others
 
-Usenet apps like Radarr, Sonarr, and NZBGet only support basic auth and form login. This proxy allows you to use Github SSO instead!
+Usenet apps like Radarr, Sonarr, and NZBGet only support basic auth and form login. This proxy allows you to use Auth0/Github SSO instead!
+
+Note: for Auth0 make sure you give them acess by setting `app_metadata` for each user to this json:
+
+`{
+   "authorities": [ "ROLE_API"]
+ }
+ `
 
 This app is meant to be the public gateway to the other apps, all security is handled here. So, be sure to disable authentication and public access on those apps directly.
 
