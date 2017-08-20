@@ -51,7 +51,7 @@ public class ProxyConfiguration {
      */
     @Bean
     public FilterRegistrationBean forwardedHeaderFilter() {
-        FilterRegistrationBean bean = new FilterRegistrationBean(new ForwardedHeaderFilter());
+        FilterRegistrationBean<ForwardedHeaderFilter> bean = new FilterRegistrationBean<>(new ForwardedHeaderFilter());
         bean.setOrder(-500); // Before SecurityFilterChain to fix redirecting to inaccessible internal urls after successful authentication
         return bean;
     }

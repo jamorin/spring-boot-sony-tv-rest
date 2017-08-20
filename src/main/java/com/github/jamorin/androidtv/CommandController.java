@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -23,6 +24,7 @@ public class CommandController {
     private final ClientResource resource;
     private final Map<String, String> cmdSlugs;
 
+    @Async
     @PostMapping(path = "/api/command", produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public void command(@Validated @RequestBody Request request) {
         String code = cmdSlugs.get(slug(request.getCommand()));

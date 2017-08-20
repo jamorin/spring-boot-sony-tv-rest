@@ -2,7 +2,7 @@ package com.github.jamorin.proxy;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.boot.actuate.autoconfigure.ManagementServerProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -22,7 +22,7 @@ import java.util.Map;
 @Configuration
 @RequiredArgsConstructor
 @EnableGlobalAuthentication
-@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER - 1) // After TV filter but before SSO filter
+@Order(ManagementServerProperties.ACCESS_OVERRIDE_ORDER - 1) // After TV filter but before SSO filter
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final ProxyProperties props;

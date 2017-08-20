@@ -4,11 +4,12 @@ import com.samskivert.mustache.Mustache;
 import com.samskivert.mustache.Template;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.io.IOUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.ResourceLoader;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.util.StreamUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -18,6 +19,7 @@ import java.util.Map;
 import static com.github.jamorin.androidtv.Utils.slug;
 
 @Slf4j
+@EnableAsync
 @Configuration
 @RequiredArgsConstructor
 public class TvConfig {
@@ -30,7 +32,7 @@ public class TvConfig {
     @Bean
     public Template template(Mustache.Compiler compiler) throws IOException {
         Resource resource = resourceLoader.getResource("classpath:/request.xml");
-        String template = IOUtils.toString(resource.getInputStream(), StandardCharsets.UTF_8);
+        String template = StreamUtils.copyToString(resource.getInputStream(), StandardCharsets.UTF_8);
         return compiler.compile(template);
     }
 
@@ -41,9 +43,8 @@ public class TvConfig {
     public Map<String, String> cmdSlugs(TvProperties appProperties) {
         log.info("Mapping {} TV commands", appProperties.getCommand().size());
         Map<String, String> cmdSlugs = new HashMap<>();
-        appProperties.getCommand().forEach((key, value) -> {
-            cmdSlugs.put(slug(key), value);
-        });
+        appProperties.getCommand()
+                .forEach((key, value) -> cmdSlugs.put(slug(key), value));
         return cmdSlugs;
     }
 }

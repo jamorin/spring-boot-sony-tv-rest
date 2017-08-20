@@ -1,7 +1,7 @@
 package com.github.jamorin.androidtv.config;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
+import org.springframework.boot.actuate.autoconfigure.ManagementServerProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -13,7 +13,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
  */
 @Configuration
 @RequiredArgsConstructor
-@Order(SecurityProperties.ACCESS_OVERRIDE_ORDER - 2) // Needs to be first to have highest priority over SSO
+@Order(ManagementServerProperties.ACCESS_OVERRIDE_ORDER - 2) // Needs to be first to have highest priority over SSO
 public class TvSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
