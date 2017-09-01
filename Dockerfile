@@ -10,4 +10,4 @@ WORKDIR /
 RUN rm -r /build
 RUN rm -r /root/.m2
 
-ENTRYPOINT ["java","-Djava.security.egd=file:/dev/./urandom","-jar","app.jar"]
+ENTRYPOINT exec java $JAVA_OPTS -jar /app.jar
